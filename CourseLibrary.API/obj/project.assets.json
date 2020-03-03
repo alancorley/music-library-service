@@ -5236,11 +5236,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\acorley\\Desktop\\MusicLibrary\\CourseLibrary.API\\MusicLibrary.API.csproj",
+      "projectUniqueName": "C:\\Git\\MusicLibrary\\CourseLibrary.API\\MusicLibrary.API.csproj",
       "projectName": "MusicLibrary.API",
-      "projectPath": "C:\\Users\\acorley\\Desktop\\MusicLibrary\\CourseLibrary.API\\MusicLibrary.API.csproj",
+      "projectPath": "C:\\Git\\MusicLibrary\\CourseLibrary.API\\MusicLibrary.API.csproj",
       "packagesPath": "C:\\Users\\acorley\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\acorley\\Desktop\\MusicLibrary\\CourseLibrary.API\\obj\\",
+      "outputPath": "C:\\Git\\MusicLibrary\\CourseLibrary.API\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"

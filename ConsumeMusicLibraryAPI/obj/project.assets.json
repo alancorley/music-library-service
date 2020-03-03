@@ -8468,11 +8468,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\acorley\\Desktop\\MusicLibrary\\ConsumeMusicLibraryAPI\\MusicClient.csproj",
+      "projectUniqueName": "C:\\Git\\MusicLibrary\\ConsumeMusicLibraryAPI\\MusicClient.csproj",
       "projectName": "MusicClient",
-      "projectPath": "C:\\Users\\acorley\\Desktop\\MusicLibrary\\ConsumeMusicLibraryAPI\\MusicClient.csproj",
+      "projectPath": "C:\\Git\\MusicLibrary\\ConsumeMusicLibraryAPI\\MusicClient.csproj",
       "packagesPath": "C:\\Users\\acorley\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\acorley\\Desktop\\MusicLibrary\\ConsumeMusicLibraryAPI\\obj\\",
+      "outputPath": "C:\\Git\\MusicLibrary\\ConsumeMusicLibraryAPI\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
@@ -8491,8 +8491,8 @@
       "frameworks": {
         "netcoreapp3.1": {
           "projectReferences": {
-            "C:\\Users\\acorley\\Desktop\\MusicLibrary\\CourseLibrary.API\\MusicLibrary.API.csproj": {
-              "projectPath": "C:\\Users\\acorley\\Desktop\\MusicLibrary\\CourseLibrary.API\\MusicLibrary.API.csproj"
+            "C:\\Git\\MusicLibrary\\CourseLibrary.API\\MusicLibrary.API.csproj": {
+              "projectPath": "C:\\Git\\MusicLibrary\\CourseLibrary.API\\MusicLibrary.API.csproj"
             }
           }
         }

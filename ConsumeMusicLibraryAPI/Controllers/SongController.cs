@@ -233,6 +233,9 @@ namespace MusicClient.Controllers
 
         public async Task<IActionResult> Download(Guid artistId, Guid songId)
         {
+            //TODO: NEED TO FIX THIS TO USE API
+            return NotFound();
+
             if (artistId == Guid.Empty || songId == Guid.Empty)
             {
                 return NotFound();
@@ -249,13 +252,35 @@ namespace MusicClient.Controllers
                            Directory.GetCurrentDirectory(),
                            "wwwroot", song.Filename);
 
-            var memory = new MemoryStream();
-            using (var stream = new FileStream(path, FileMode.Open))
+            if (!string.IsNullOrWhiteSpace(path))
             {
-                await stream.CopyToAsync(memory);
+                // Get an instance of HttpClient from the factory that we registered in Startup.cs
+                var client = _httpClientFactory.CreateClient("API Client");
+
+                var result = await client.GetAsync("/api/files/");
+
+                //HttpContent fileStreamContent = new StreamContent(file.OpenReadStream());
+                //fileStreamContent.Headers.ContentDisposition = new ContentDispositionHeaderValue("form-data") { Name = "file", FileName = file.FileName };
+                //fileStreamContent.Headers.ContentType = new MediaTypeHeaderValue("audio/mpeg"); //TODO: remove hardcoded contenttype and make dynamic
+                //using (var formData = new MultipartFormDataContent())
+                //{
+                //    formData.Add(fileStreamContent);
+                //    var uploadReponse = await client.PostAsync("api/files/" + songId, formData);
+                //    var uploadReponsePayload = uploadReponse.Content.ReadAsStringAsync().Result;
+                //    dynamic data = JsonConvert.DeserializeObject(uploadReponse.Content.ReadAsStringAsync().Result);
+                //    string newFilePath = data.message;
+                //    return newFilePath;
+                //}
             }
-            memory.Position = 0;
-            return File(memory, "audio/mpeg", Path.GetFileName(path));
+
+
+            //var memory = new MemoryStream();
+            //using (var stream = new FileStream(path, FileMode.Open))
+            //{
+            //    await stream.CopyToAsync(memory);
+            //}
+            //memory.Position = 0;
+            //return File(memory, "audio/mpeg", Path.GetFileName(path));
         }
 
         private async Task<string> UploadFile(IFormFile file, string songId)

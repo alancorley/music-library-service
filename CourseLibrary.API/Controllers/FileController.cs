@@ -41,7 +41,30 @@ namespace SongLibrary.API.Controllers
                         return Ok(new { message = filePath.ToString() });
                     }
                 }
+                return NotFound();
+            }
+            catch (Exception ex)
+            {
                 return BadRequest();
+            }
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Download([FromForm(Name = "filepath")] string filepath)
+        {
+            try
+            {
+                if (!Directory.Exists(_environment.WebRootPath + filepath))
+                {
+                    FileStream stream = System.IO.File.OpenRead(_environment.WebRootPath + filepath);
+
+                    if (stream == null)
+                        return NotFound();
+
+                    return new FileStreamResult(stream, "application/octet-stream");
+                }
+
+                return NotFound();
             }
             catch (Exception ex)
             {
