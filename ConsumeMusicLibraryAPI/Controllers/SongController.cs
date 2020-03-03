@@ -13,6 +13,7 @@ using SongLibrary.API.Models;
 using System.IO;
 using MusicClient.ViewModel;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.JsonPatch;
 
 namespace MusicClient.Controllers
 {
@@ -68,7 +69,7 @@ namespace MusicClient.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Edit(SongForUpdateDto song, Guid artistId, Guid songId)
+        public async Task<IActionResult> Edit(SongForUpdateDto song, Guid artistId, Guid songId, SongViewModel model)
         {
             if (song != null && ModelState.IsValid)
             {
@@ -84,6 +85,22 @@ namespace MusicClient.Controllers
                 request.Content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
 
                 var response = await client.SendAsync(request);
+
+                if (model.Filename != null && model.Filename.ContentType == "audio/mp3")
+                {
+                    //Upload audio file to API and returns the path to the file
+                    string fileUploadPath = await UploadFile(model.Filename, songId.ToString());
+
+                    //Need to update the song with the uploaded file's path
+                    if (!string.IsNullOrWhiteSpace(fileUploadPath))
+                    {
+                        var patchDoc = new JsonPatchDocument<SongForUpdateDto>();
+                        patchDoc.Replace(m => m.Filename, fileUploadPath);
+                        await PatchSong(artistId.ToString(), songId.ToString(), patchDoc);
+                    }
+                }
+
+
                 response.EnsureSuccessStatusCode();
 
                 return RedirectToAction("list", "song", new { id = artistId.ToString() });
@@ -113,7 +130,7 @@ namespace MusicClient.Controllers
         public async Task<IActionResult> Create(SongForCreationDto song, Guid artistId, SongViewModel model)
         {
 
-            if (song != null && ModelState.IsValid && model.Filename.ContentType == "audio/mp3")
+            if (song != null && ModelState.IsValid)
             {
                 //Create the new instance of the song 
                 var client = _httpClientFactory.CreateClient("API Client");
@@ -131,46 +148,21 @@ namespace MusicClient.Controllers
                 var responsePayloadDeserialized = JsonConvert.DeserializeObject<SongDto>(responsePayload);
                 string songId = responsePayloadDeserialized.Id.ToString();
 
-
-                //Upload audio file to API and returns the path to the file
-                string fileUploadPath = await UploadFile(model.Filename, songId);
-
-                if (!string.IsNullOrWhiteSpace(fileUploadPath))
+                if(model.Filename != null && model.Filename.ContentType == "audio/mp3")
                 {
-                    //need to update the song record with the uploaded file's path
-                    SongDto updateSong = new SongDto();
-                    updateSong.Filename = fileUploadPath;
+                    //Upload audio file to API and returns the path to the file
+                    string fileUploadPath = await UploadFile(model.Filename, songId);
 
-                    var serializedSongToUpdate = JsonConvert.SerializeObject(updateSong);
-
-                    var updateRequest = new HttpRequestMessage(HttpMethod.Patch, "api/artists/" + artistId.ToString() + "/songs/" + songId);
-                    updateRequest.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-
-                    updateRequest.Content = new StringContent(serializedSongToUpdate);
-                    updateRequest.Content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
-
-                    var updateResponse = await client.SendAsync(updateRequest);
+                    //Need to update the song with the uploaded file's path
+                    if (!string.IsNullOrWhiteSpace(fileUploadPath))
+                    {
+                        var patchDoc = new JsonPatchDocument<SongForUpdateDto>();
+                        patchDoc.Replace(m => m.Filename, fileUploadPath);
+                        await PatchSong(artistId.ToString(), songId, patchDoc);
+                    }
                 }
 
 
-
-                //if (model != null || model.Filename != null || model.Filename.Length != 0)
-                //{
-                //    HttpContent fileStreamContent = new StreamContent(model.Filename.OpenReadStream());
-                //    fileStreamContent.Headers.ContentDisposition = new ContentDispositionHeaderValue("form-data") { Name = "file", FileName = model.Filename.FileName };
-                //    fileStreamContent.Headers.ContentType = new MediaTypeHeaderValue("audio/mpeg"); //TODO: remove hardcoded contenttype and make dynamic
-                //    using (var formData = new MultipartFormDataContent())
-                //    {
-                //        formData.Add(fileStreamContent);
-                //        var uploadReponse = await client.PostAsync("api/files/" + songId, formData);
-                //        var uploadReponsePayload = uploadReponse.Content.ReadAsStringAsync().Result;
-                //        dynamic data = JsonConvert.DeserializeObject(uploadReponse.Content.ReadAsStringAsync().Result);
-                //        string newFilePath = data.message;
-
-                //        //need to update the song record with the uploaded file's path
-
-                //    }
-                //}
                 response.EnsureSuccessStatusCode();
                 return RedirectToAction("list", "song", new { id = artistId.ToString() });
 
@@ -178,6 +170,19 @@ namespace MusicClient.Controllers
             return View(song);
         }
 
+        private async Task PatchSong(string artistId, string songId, JsonPatchDocument<SongForUpdateDto> patchDoc)
+        {
+            var serializedChangeSet = JsonConvert.SerializeObject(patchDoc);
+
+            var request = new HttpRequestMessage(HttpMethod.Patch, "api/artists/" + artistId + "/songs/" + songId);
+            request.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+            request.Content = new StringContent(serializedChangeSet);
+            request.Content.Headers.ContentType = new MediaTypeHeaderValue("application/json-patch+json");
+
+            var client = _httpClientFactory.CreateClient("API Client");
+            var response = await client.SendAsync(request);
+            response.EnsureSuccessStatusCode();
+        }
         private async Task<SongForUpdateDto> GetSong(Guid artistId, Guid songID)
         {
             // Get an instance of HttpClient from the factpry that we registered in Startup.cs

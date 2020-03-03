@@ -624,3 +624,4 @@ C:\Users\acorley\Desktop\MusicLibrary\ConsumeMusicLibraryAPI\obj\Debug\netcoreap
 C:\Users\acorley\Desktop\MusicLibrary\ConsumeMusicLibraryAPI\obj\Debug\netcoreapp3.1\MusicClient.csproj.CopyComplete
 C:\Users\acorley\Desktop\MusicLibrary\ConsumeMusicLibraryAPI\obj\Debug\netcoreapp3.1\MusicClient.dll
 C:\Users\acorley\Desktop\MusicLibrary\ConsumeMusicLibraryAPI\obj\Debug\netcoreapp3.1\MusicClient.pdb
+C:\Users\acorley\Desktop\MusicLibrary\ConsumeMusicLibraryAPI\bin\Debug\netcoreapp3.1\MusicClient.StaticWebAssets.xml

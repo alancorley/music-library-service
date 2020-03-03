@@ -10,8 +10,8 @@ namespace SongLibrary.API.Models
     {
         
 
-        [Required(ErrorMessage = "You should fill out a genre.")]
-        public override string Genre { get => base.Genre; set => base.Genre = value; }
+        //[Required(ErrorMessage = "You should fill out a genre.")]
+        //public override string Genre { get => base.Genre; set => base.Genre = value; }
 
     }
 }

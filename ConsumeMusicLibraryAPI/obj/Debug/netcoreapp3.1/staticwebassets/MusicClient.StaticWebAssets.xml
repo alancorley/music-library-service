@@ -1,1 +1,3 @@
-﻿<StaticWebAssets Version="1.0" />
+﻿<StaticWebAssets Version="1.0">
+  <ContentRoot BasePath="_content/MusicLibrary.API" Path="C:\Users\acorley\Desktop\MusicLibrary\CourseLibrary.API\wwwroot\" />
+</StaticWebAssets>

@@ -235,3 +235,4 @@ C:\Users\acorley\Desktop\MusicLibrary\CourseLibrary.API\obj\Debug\netcoreapp3.0\
 C:\Users\acorley\Desktop\MusicLibrary\CourseLibrary.API\obj\Debug\netcoreapp3.0\MusicLibrary.API.csproj.CopyComplete
 C:\Users\acorley\Desktop\MusicLibrary\CourseLibrary.API\obj\Debug\netcoreapp3.0\MusicLibrary.API.dll
 C:\Users\acorley\Desktop\MusicLibrary\CourseLibrary.API\obj\Debug\netcoreapp3.0\MusicLibrary.API.pdb
+C:\Users\acorley\Desktop\MusicLibrary\CourseLibrary.API\obj\Debug\netcoreapp3.0\MusicLibrary.API.csprojAssemblyReference.cache
