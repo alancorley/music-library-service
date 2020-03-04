@@ -10,7 +10,7 @@ using System.Net.Http;
 using Newtonsoft.Json;
 using System.Net.Http.Headers;
 using SongLibrary.API.Models;
-
+using SongLibrary.API.Services;
 
 namespace MusicClient.Controllers
 {
@@ -94,19 +94,26 @@ namespace MusicClient.Controllers
         {
             if (id == null)
             {
-                return NotFound(); 
+                return NotFound();
             }
-                // Get an instance of HttpClient from the factpry that we registered in Startup.cs
-                var client = _httpClientFactory.CreateClient("API Client");
 
-                var request = new HttpRequestMessage(HttpMethod.Delete, "api/artists/" + id.ToString());
-                request.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+            //First, get list of songs associated to this Artist and delete the associated audio files
+            IEnumerable<SongDto> songsForArtist = await GetSongsByArtist(id);
+            if (songsForArtist.Any())
+            {
+                foreach (SongDto song in songsForArtist)
+                {
+                    DeleteFile(song.Id);
+                }
+            }
 
-                var response = await client.SendAsync(request);
-                response.EnsureSuccessStatusCode();
+            //Delete Artist (Song child rows will be deleted automatically)
+            await DeleteArtistAsync(id);
 
-                return RedirectToAction("Index");
+            return RedirectToAction("Index");
         }
+
+
 
         private async Task<IEnumerable<ArtistDto>> GetArtists()
         {
@@ -139,7 +146,45 @@ namespace MusicClient.Controllers
             }
             return null;
         }
-        
+
+        private void DeleteFile(Guid songId)
+        {
+            //delete audio file
+            var client = _httpClientFactory.CreateClient("API Client");
+
+            var request = new HttpRequestMessage(HttpMethod.Delete, "api/files/" + songId.ToString());
+            request.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+
+            client.SendAsync(request);
+        }
+
+        private async Task DeleteArtistAsync(Guid artistId)
+        {
+            var client = _httpClientFactory.CreateClient("API Client");
+
+            var request = new HttpRequestMessage(HttpMethod.Delete, "api/artists/" + artistId.ToString());
+            request.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+
+            var response = await client.SendAsync(request);
+            response.EnsureSuccessStatusCode();
+        }
+
+        private async Task<IEnumerable<SongDto>> GetSongsByArtist(Guid artistID)
+        {
+            // Get an instance of HttpClient from the factpry that we registered in Startup.cs
+            var client = _httpClientFactory.CreateClient("API Client");
+
+            var result = await client.GetAsync("/api/artists/" + artistID + "/songs");
+
+            if (result.IsSuccessStatusCode)
+            {
+                // Read all of the response and deserialise it into an instace of
+                var content = await result.Content.ReadAsStringAsync();
+                return JsonConvert.DeserializeObject<List<SongDto>>(content);
+            }
+            return null;
+        }
+
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {

@@ -11,12 +11,13 @@ namespace SongLibrary.API.Profiles
     {
         public ArtistsProfile()
         {
-            CreateMap<Entities.Artist, Models.ArtistDto>()
-                .ForMember(
-                    dest => dest.Name,
-                    opt => opt.MapFrom(src => $"{src.FirstName} {src.LastName}"));
+            //CreateMap<Entities.Artist, Models.ArtistDto>()
+            //    .ForMember(
+            //        dest => dest.Name,
+            //        opt => opt.MapFrom(src => $"{src.FirstName} {src.LastName}"));
+                    
 
-            //CreateMap<Entities.Artist, Models.ArtistDto>();
+            CreateMap<Entities.Artist, Models.ArtistDto>();
             CreateMap<Models.ArtistForUpdateDto, Entities.Artist>();
             CreateMap<Models.ArtistForCreationDto, Entities.Artist>();
         }

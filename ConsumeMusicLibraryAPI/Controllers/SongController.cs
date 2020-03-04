@@ -114,14 +114,10 @@ namespace MusicClient.Controllers
             {
                 return NotFound();
             }
-            // Get an instance of HttpClient from the factpry that we registered in Startup.cs
-            var client = _httpClientFactory.CreateClient("API Client");
 
-            var request = new HttpRequestMessage(HttpMethod.Delete, "api/artists/" + artistId.ToString() + "/songs/" + songId.ToString());
-            request.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-
-            var response = await client.SendAsync(request);
-            response.EnsureSuccessStatusCode();
+            //First need to delete the actual media file associated to this song object
+            DeleteFile(songId);
+            await DeleteSongAsync(artistId, songId);
 
             return RedirectToAction("list", "song", new { id = artistId.ToString() });
         }
@@ -168,6 +164,25 @@ namespace MusicClient.Controllers
 
             }
             return View(song);
+        }
+
+        public async Task<IActionResult> Download(Guid artistId, Guid songId)
+        {
+            //Get filepath for requested song
+            SongForUpdateDto songObject = await GetSong(artistId, songId);
+
+            if (!string.IsNullOrWhiteSpace(songObject.Filename))
+            {
+                var client = _httpClientFactory.CreateClient("API Client");
+
+                var response = await client.GetStreamAsync("/api/files/?filepath=" + songObject.Filename);
+                return new FileStreamResult(response, "application/octet-stream")
+                {
+                    FileDownloadName = songObject.Title.ToLower() + ".mp3",
+                    EnableRangeProcessing = true
+                };
+            }
+            return NotFound();
         }
 
         private async Task PatchSong(string artistId, string songId, JsonPatchDocument<SongForUpdateDto> patchDoc)
@@ -231,56 +246,26 @@ namespace MusicClient.Controllers
             return null;
         }
 
-        public async Task<IActionResult> Download(Guid artistId, Guid songId)
+        private void DeleteFile(Guid songId)
         {
-            //TODO: NEED TO FIX THIS TO USE API
-            return NotFound();
+            //delete audio file
+            var client = _httpClientFactory.CreateClient("API Client");
 
-            if (artistId == Guid.Empty || songId == Guid.Empty)
-            {
-                return NotFound();
-            }
-            var song = await GetSong(artistId, songId);
-            if (song == null)
-                return NotFound();
+            var request = new HttpRequestMessage(HttpMethod.Delete, "api/files/" + songId.ToString());
+            request.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
 
+            client.SendAsync(request);
+        }
 
-            if (string.IsNullOrWhiteSpace(song.Filename))
-                return NotFound();
+        private async Task DeleteSongAsync(Guid artistId, Guid songId)
+        {
+            var client = _httpClientFactory.CreateClient("API Client");
 
-            var path = Path.Combine(
-                           Directory.GetCurrentDirectory(),
-                           "wwwroot", song.Filename);
+            var request = new HttpRequestMessage(HttpMethod.Delete, "api/artists/" + artistId.ToString() + "/songs/" + songId.ToString());
+            request.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
 
-            if (!string.IsNullOrWhiteSpace(path))
-            {
-                // Get an instance of HttpClient from the factory that we registered in Startup.cs
-                var client = _httpClientFactory.CreateClient("API Client");
-
-                var result = await client.GetAsync("/api/files/");
-
-                //HttpContent fileStreamContent = new StreamContent(file.OpenReadStream());
-                //fileStreamContent.Headers.ContentDisposition = new ContentDispositionHeaderValue("form-data") { Name = "file", FileName = file.FileName };
-                //fileStreamContent.Headers.ContentType = new MediaTypeHeaderValue("audio/mpeg"); //TODO: remove hardcoded contenttype and make dynamic
-                //using (var formData = new MultipartFormDataContent())
-                //{
-                //    formData.Add(fileStreamContent);
-                //    var uploadReponse = await client.PostAsync("api/files/" + songId, formData);
-                //    var uploadReponsePayload = uploadReponse.Content.ReadAsStringAsync().Result;
-                //    dynamic data = JsonConvert.DeserializeObject(uploadReponse.Content.ReadAsStringAsync().Result);
-                //    string newFilePath = data.message;
-                //    return newFilePath;
-                //}
-            }
-
-
-            //var memory = new MemoryStream();
-            //using (var stream = new FileStream(path, FileMode.Open))
-            //{
-            //    await stream.CopyToAsync(memory);
-            //}
-            //memory.Position = 0;
-            //return File(memory, "audio/mpeg", Path.GetFileName(path));
+            var response = await client.SendAsync(request);
+            response.EnsureSuccessStatusCode();
         }
 
         private async Task<string> UploadFile(IFormFile file, string songId)

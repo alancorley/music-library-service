@@ -16,7 +16,7 @@
                 @Html.DisplayNameFor(model => model.Id)
             </th>
             <th scope="col">
-                @Html.DisplayNameFor(model => model.Name)
+                @Html.DisplayNameFor(model => model.FullName)
             </th>
             <th></th>
         </tr>
@@ -29,11 +29,11 @@
                 @Html.DisplayFor(modelItem => item.Id)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Name)
+                @Html.DisplayFor(modelItem => item.FullName)
             </td>
             <td>
-                <a asp-controller="Artist" asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-controller="Artist" asp-action="Delete" asp-route-id="@item.Id">Delete</a> |
+                @Html.ActionLink("Edit", "Edit", new { Id = item.Id }) |
+                @Html.ActionLink("Delete", "Delete", new { Id = item.Id}, new { onclick = "return confirm('Are you sure you wish to delete this artist?');" }) |
                 <a href="/song/list/@item.Id/">Songs</a>
             </td>
         </tr>

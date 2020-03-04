@@ -630,7 +630,6 @@ C:\Git\MusicLibrary\ConsumeMusicLibraryAPI\bin\Debug\netcoreapp3.1\appsettings.j
 C:\Git\MusicLibrary\ConsumeMusicLibraryAPI\bin\Debug\netcoreapp3.1\Properties\launchSettings.json
 C:\Git\MusicLibrary\ConsumeMusicLibraryAPI\bin\Debug\netcoreapp3.1\libman.json
 C:\Git\MusicLibrary\ConsumeMusicLibraryAPI\bin\Debug\netcoreapp3.1\MusicLibrary.API.exe
-C:\Git\MusicLibrary\ConsumeMusicLibraryAPI\bin\Debug\netcoreapp3.1\MusicClient.StaticWebAssets.xml
 C:\Git\MusicLibrary\ConsumeMusicLibraryAPI\bin\Debug\netcoreapp3.1\MusicClient.exe
 C:\Git\MusicLibrary\ConsumeMusicLibraryAPI\bin\Debug\netcoreapp3.1\MusicClient.deps.json
 C:\Git\MusicLibrary\ConsumeMusicLibraryAPI\bin\Debug\netcoreapp3.1\MusicClient.runtimeconfig.json

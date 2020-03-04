@@ -8,11 +8,16 @@ namespace SongLibrary.API.Models
     public class ArtistDto
     {
         public Guid Id { get; set; }
-        public string Name { get; set; }
-        //public string LastName { get; set; }
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
+
+        public string FullName
+        {
+            get { return FirstName + " " + LastName; }
+        }
 
         //public ICollection<SongDto> Songs { get; set; }
-            //= new List<SongDto>();
+        //= new List<SongDto>();
 
     }
 }

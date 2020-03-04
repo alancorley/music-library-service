@@ -12,9 +12,11 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace SongLibrary.API.Controllers
 {
+    
     [Route("api/files")]
     public class FileController : Controller
     {
+        const string uploadDirectory = "\\Upload";
         public static IWebHostEnvironment _environment;
 
         public FileController(IWebHostEnvironment environment)
@@ -27,14 +29,15 @@ namespace SongLibrary.API.Controllers
         {
             try
             {
-                if (file.Length > 0 && file.ContentType.ToString() == "audio/mpeg") //RESTRICTED TO MPEG: AT SOME POINT, INCLUDE ADDL FILE EXTENSIONS
+                if (file.Length > 0 && file.ContentType.ToString() == "audio/mpeg") //TODO: RESTRICTED TO MPEG: AT SOME POINT, INCLUDE ADDL FILE EXTENSIONS
                 {
-                    if (!Directory.Exists(_environment.WebRootPath + "\\Upload"))
+                    if (!Directory.Exists(_environment.WebRootPath + uploadDirectory))
                     {
-                        Directory.CreateDirectory(_environment.WebRootPath + "\\Upload\\");
+                        Directory.CreateDirectory(_environment.WebRootPath + uploadDirectory);
                     }
-                    string filePath = "\\Upload\\" + songId.ToString() + file.FileName.ToLower();
-                    using (FileStream fileStream = System.IO.File.Create(_environment.WebRootPath + filePath))
+
+                    string filePath = _environment.WebRootPath + uploadDirectory + "\\" + songId.ToString() + ".mp3";
+                    using (FileStream fileStream = System.IO.File.Create(filePath))
                     {
                         await file.CopyToAsync(fileStream);
                         await fileStream.FlushAsync();
@@ -50,18 +53,36 @@ namespace SongLibrary.API.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> Download([FromForm(Name = "filepath")] string filepath)
+        public IActionResult Download([FromQuery(Name = "filepath")] string filepath)
         {
             try
             {
-                if (!Directory.Exists(_environment.WebRootPath + filepath))
+                //check for existance of requested file and return if exists
+                string filePath = Path.Combine(_environment.WebRootPath, filepath);
+                if (System.IO.File.Exists(filePath))
                 {
-                    FileStream stream = System.IO.File.OpenRead(_environment.WebRootPath + filepath);
+                    return PhysicalFile(filePath, "application/octet-stream", true);
+                }
+                
+                return NotFound();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest();
+            }
+        }
 
-                    if (stream == null)
-                        return NotFound();
-
-                    return new FileStreamResult(stream, "application/octet-stream");
+        [HttpDelete("{id}")]
+        public IActionResult Delete(string id)
+        {
+            try
+            {
+                //check for existance of requested file and return if exists
+                string filePath = _environment.WebRootPath + uploadDirectory + "\\" + id + ".mp3";
+                if (System.IO.File.Exists(filePath))
+                {
+                    System.IO.File.Delete(filePath);
+                    return Ok();
                 }
 
                 return NotFound();
@@ -71,5 +92,6 @@ namespace SongLibrary.API.Controllers
                 return BadRequest();
             }
         }
+
     }
 }
