@@ -26,6 +26,9 @@ namespace SongLibrary.API
                     
                     //create database if not already exists
                     context.Database.EnsureCreated();
+
+                    //context.Database.EnsureDeleted();
+                    //context.Database.Migrate();
                 }
                 catch (Exception ex)
                 {

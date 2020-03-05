@@ -171,7 +171,7 @@ namespace MusicClient.Controllers
             //Get filepath for requested song
             SongForUpdateDto songObject = await GetSong(artistId, songId);
 
-            if (!string.IsNullOrWhiteSpace(songObject.Filename))
+            if (songObject.Filename != null && !string.IsNullOrWhiteSpace(songObject.Filename))
             {
                 var client = _httpClientFactory.CreateClient("API Client");
 
@@ -182,7 +182,8 @@ namespace MusicClient.Controllers
                     EnableRangeProcessing = true
                 };
             }
-            return NotFound();
+            
+           return Content("File not found");
         }
 
         private async Task PatchSong(string artistId, string songId, JsonPatchDocument<SongForUpdateDto> patchDoc)

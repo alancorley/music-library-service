@@ -46,8 +46,13 @@
                     </td>
                     <td>
                         @Html.ActionLink("Edit", "Edit", new { songId = item.Id, artistId = item.Artist.Id }) |
-                        @Html.ActionLink("Delete", "Delete", new { songId = item.Id, artistId = item.Artist.Id },new { onclick = "return confirm('Are you sure you wish to delete this song?');" }) |
-                        @Html.ActionLink("Download", "Download", new { songId = item.Id, artistId = item.Artist.Id })
+                        @Html.ActionLink("Delete", "Delete", new { songId = item.Id, artistId = item.Artist.Id }, new { onclick = "return confirm('Are you sure you wish to delete this song?');" })
+                        @if (!string.IsNullOrWhiteSpace(item.Filename))
+                        {
+                            @Html.ActionLink("| Download", "Download", new { songId = item.Id, artistId = item.Artist.Id })
+                        }
+
+
                     </td>
                 </tr>
             }

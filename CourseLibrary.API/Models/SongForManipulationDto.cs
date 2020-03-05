@@ -17,6 +17,7 @@ namespace SongLibrary.API.Models
         [MaxLength(100, ErrorMessage = "The genre shouldn't have more than 100 characters.")]
         public virtual string Genre { get; set; }
 
+        [Display(Name = "Path")]
         [MaxLength(100, ErrorMessage = "The filename shouldn't be more than 100 characters.")]
         public virtual string Filename { get; set; }
 

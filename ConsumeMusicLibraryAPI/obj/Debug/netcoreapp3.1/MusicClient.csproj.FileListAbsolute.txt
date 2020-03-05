@@ -781,3 +781,4 @@ C:\Git\MusicLibrary\ConsumeMusicLibraryAPI\obj\Debug\netcoreapp3.1\MusicClient.V
 C:\Git\MusicLibrary\ConsumeMusicLibraryAPI\obj\Debug\netcoreapp3.1\MusicClient.csproj.CopyComplete
 C:\Git\MusicLibrary\ConsumeMusicLibraryAPI\obj\Debug\netcoreapp3.1\MusicClient.dll
 C:\Git\MusicLibrary\ConsumeMusicLibraryAPI\obj\Debug\netcoreapp3.1\MusicClient.pdb
+C:\Git\MusicLibrary\ConsumeMusicLibraryAPI\bin\Debug\netcoreapp3.1\MusicClient.StaticWebAssets.xml
