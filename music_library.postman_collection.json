@@ -1,0 +1,565 @@
+{
+	"info": {
+		"_postman_id": "b69798a3-d11c-4c4c-8d2b-e7d899b334b4",
+		"name": "Music Library",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "GET Artists",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:51044/api/artists",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "51044",
+					"path": [
+						"api",
+						"artists"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET Artist",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/vnd.marvin.hateoas+json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:51044/api/artists/d28888e9-2ba9-473a-a40f-e38cb54f9b35",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "51044",
+					"path": [
+						"api",
+						"artists",
+						"d28888e9-2ba9-473a-a40f-e38cb54f9b35"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET Artist (Accept: application/json)",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:51044/api/artists/d28888e9-2ba9-473a-a40f-e38cb54f9b35",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "51044",
+					"path": [
+						"api",
+						"artists",
+						"d28888e9-2ba9-473a-a40f-e38cb54f9b35"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET Songs for Artist",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:51044/api/artists/d28888e9-2ba9-473a-a40f-e38cb54f9b35/songs",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "51044",
+					"path": [
+						"api",
+						"artists",
+						"d28888e9-2ba9-473a-a40f-e38cb54f9b35",
+						"songs"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET Song for Artist",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:51044/api/artists/d28888e9-2ba9-473a-a40f-e38cb54f9b35/songs/5b1c2b4d-48c7-402a-80c3-cc796ad49c6b",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "51044",
+					"path": [
+						"api",
+						"artists",
+						"d28888e9-2ba9-473a-a40f-e38cb54f9b35",
+						"songs",
+						"5b1c2b4d-48c7-402a-80c3-cc796ad49c6b"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "HEAD Artists",
+			"request": {
+				"method": "HEAD",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:51044/api/artists",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "51044",
+					"path": [
+						"api",
+						"artists"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET Filtered Artists",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:51044/api/artists?mainCategory=Rum",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "51044",
+					"path": [
+						"api",
+						"artists"
+					],
+					"query": [
+						{
+							"key": "mainCategory",
+							"value": "Rum"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET Searched Artists",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:51044/api/artists?searchQuery=a",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "51044",
+					"path": [
+						"api",
+						"artists"
+					],
+					"query": [
+						{
+							"key": "searchQuery",
+							"value": "a"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "POST Artist",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "Accept",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"firstName\" : \"Jane\",\n\t\"lastName\" : \"Skewers\",\n\t\"dateOfBirth\" : \"1968-03-04T00:00:00\",\n\t\"mainCategory\": \"Rum\"\n}"
+				},
+				"url": {
+					"raw": "http://localhost:51044/api/artists",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "51044",
+					"path": [
+						"api",
+						"artists"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "POST Song for Artist",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "Accept",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"title\" : \"Top Pirate Hits of Last Decade\",\n\t\"description\" : \"Learn the lyrics and notes to the latest pirate hits\"\n}"
+				},
+				"url": {
+					"raw": "http://localhost:51044/api/artists/2902b665-1190-4c70-9915-b9c2d7680450/songs",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "51044",
+					"path": [
+						"api",
+						"artists",
+						"2902b665-1190-4c70-9915-b9c2d7680450",
+						"songs"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "OPTIONS Artists",
+			"request": {
+				"method": "OPTIONS",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": []
+				},
+				"url": {
+					"raw": "http://localhost:51044/api/artists",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "51044",
+					"path": [
+						"api",
+						"artists"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "POST Song for Artist (null values)",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "Accept",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"title\" : null,\n\t\"description\" : null\n}"
+				},
+				"url": {
+					"raw": "http://localhost:51044/api/artists/2902b665-1190-4c70-9915-b9c2d7680450/songs",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "51044",
+					"path": [
+						"api",
+						"artists",
+						"2902b665-1190-4c70-9915-b9c2d7680450",
+						"songs"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "PUT Song for Artist",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "Accept",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"title\": \"Updated title\",\n  \"description\": \"Updated description\"\n}"
+				},
+				"url": {
+					"raw": "http://localhost:51044/api/artists/d28888e9-2ba9-473a-a40f-e38cb54f9b35/songs/5b1c2b4d-48c7-402a-80c3-cc796ad49c6b",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "51044",
+					"path": [
+						"api",
+						"artists",
+						"d28888e9-2ba9-473a-a40f-e38cb54f9b35",
+						"songs",
+						"5b1c2b4d-48c7-402a-80c3-cc796ad49c6b"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "PATCH Song for Artist",
+			"request": {
+				"method": "PATCH",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json-patch+json"
+					},
+					{
+						"key": "Accept",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "[\n    {\n      \"op\": \"replace\",\n      \"path\": \"/title\",\n      \"value\": \"Updated title\"\n    }\n]"
+				},
+				"url": {
+					"raw": "http://localhost:51044/api/artists/d28888e9-2ba9-473a-a40f-e38cb54f9b35/songs/5b1c2b4d-48c7-402a-80c3-cc796ad49c6b",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "51044",
+					"path": [
+						"api",
+						"artists",
+						"d28888e9-2ba9-473a-a40f-e38cb54f9b35",
+						"songs",
+						"5b1c2b4d-48c7-402a-80c3-cc796ad49c6b"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "PATCH Song for Artist (multiple)",
+			"request": {
+				"method": "PATCH",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json-patch+json"
+					},
+					{
+						"key": "Accept",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "[\n    {\n      \"op\": \"replace\",\n      \"path\": \"/title\",\n      \"value\": \"Another updated title\"\n    },\n    {\n      \"op\": \"replace\",\n      \"path\": \"/description\",\n      \"value\": \"Updated description\"\n    }\n]"
+				},
+				"url": {
+					"raw": "http://localhost:51044/api/artists/d28888e9-2ba9-473a-a40f-e38cb54f9b35/songs/5b1c2b4d-48c7-402a-80c3-cc796ad49c6b",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "51044",
+					"path": [
+						"api",
+						"artists",
+						"d28888e9-2ba9-473a-a40f-e38cb54f9b35",
+						"songs",
+						"5b1c2b4d-48c7-402a-80c3-cc796ad49c6b"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "PATCH Song for Artist (remove)",
+			"request": {
+				"method": "PATCH",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json-patch+json"
+					},
+					{
+						"key": "Accept",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "[\n    {\n      \"op\": \"remove\",\n      \"path\": \"/description\"\n    }\n]"
+				},
+				"url": {
+					"raw": "http://localhost:51044/api/artists/d28888e9-2ba9-473a-a40f-e38cb54f9b35/songs/5b1c2b4d-48c7-402a-80c3-cc796ad49c6b",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "51044",
+					"path": [
+						"api",
+						"artists",
+						"d28888e9-2ba9-473a-a40f-e38cb54f9b35",
+						"songs",
+						"5b1c2b4d-48c7-402a-80c3-cc796ad49c6b"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "PATCH Song for Artist (remove description)",
+			"request": {
+				"method": "PATCH",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json-patch+json"
+					},
+					{
+						"key": "Accept",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "[\n    {\n      \"op\": \"remove\",\n      \"path\": \"/description\"\n    }\n]"
+				},
+				"url": {
+					"raw": "http://localhost:51044/api/artists/d28888e9-2ba9-473a-a40f-e38cb54f9b35/songs/5b1c2b4d-48c7-402a-80c3-cc796ad49c6b",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "51044",
+					"path": [
+						"api",
+						"artists",
+						"d28888e9-2ba9-473a-a40f-e38cb54f9b35",
+						"songs",
+						"5b1c2b4d-48c7-402a-80c3-cc796ad49c6b"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "DELETE Song for Artist",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": []
+				},
+				"url": {
+					"raw": "http://localhost:51044/api/artists/d28888e9-2ba9-473a-a40f-e38cb54f9b35/songs/d8663e5e-7494-4f81-8739-6e0de1bea7ee",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "51044",
+					"path": [
+						"api",
+						"artists",
+						"d28888e9-2ba9-473a-a40f-e38cb54f9b35",
+						"songs",
+						"d8663e5e-7494-4f81-8739-6e0de1bea7ee"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "DELETE Artist",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": []
+				},
+				"url": {
+					"raw": "http://localhost:51044/api/artists/d28888e9-2ba9-473a-a40f-e38cb54f9b35",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "51044",
+					"path": [
+						"api",
+						"artists",
+						"d28888e9-2ba9-473a-a40f-e38cb54f9b35"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"protocolProfileBehavior": {}
+}
